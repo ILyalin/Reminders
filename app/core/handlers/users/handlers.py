@@ -1,19 +1,21 @@
-import asyncio
-
 from aiogram.dispatcher import FSMContext
 
 from data.constants import YEARS, MONTHS, DAYS, HOURS, MINUTES
-from handlers.users.extra import error_in_time_keyboard
-from keyboards.reply.default_keyboards import keyboard_years, keyboard_moths, keyboard_days, keyboard_hours, \
+from app.core.handlers.users.extra import error_in_time_keyboard
+from app.core.keyboards.reply.default_keyboards import keyboard_years, keyboard_moths, keyboard_days, keyboard_hours, \
     keyboard_minutes, keyboard_make_remind
 from loader import dp, types
 from main import schedule_jobs
-from states.params import SendMessage
+from app.core.states.params import SendMessage
+from app.services.database import db
 
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_message_welcome(message: types.Message, state: FSMContext):
     await state.finish()
+    user_id = message.from_user.id
+    user_name = str(message.from_user.full_name)
+    await db.add_new_user(user_name,user_id)
     await message.reply(f'<b>Привет {message.from_user.first_name}</b>', reply_markup=types.ReplyKeyboardRemove())
     await message.answer('Вы можете ставить напоминания, нажав по кнопке ⬇️', reply_markup=keyboard_make_remind)
     print(message)
