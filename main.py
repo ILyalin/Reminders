@@ -7,7 +7,7 @@ from datetime import datetime
 from data.constants import MONTHS
 from loader import bot, scheduler
 
-# from get_date_update import get_actual_date
+from get_date_update import schedule_job_for_get_update
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -29,7 +29,7 @@ def schedule_jobs():
 
 
 if __name__ == '__main__':
-    from handlers import dp
-
+    from app.core.handlers import dp
+    schedule_job_for_get_update()
     scheduler.start()
     executor.start_polling(dp, skip_updates=True)

@@ -1,6 +1,6 @@
 from data.constants import YEARS, MONTHS, DAYS, HOURS, MINUTES
 from loader import types
-from keyboards.reply.keyboard_formatting import three_line_keyboard_generation
+from app.core.keyboards.reply.formatting_keyboard.keyboard_formatting import three_line_keyboard_generation
 
 keyboard_years = types.ReplyKeyboardMarkup(
     keyboard=[
